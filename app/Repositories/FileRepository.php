@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\FileRepositoryInterface;
 use App\Models\File;
+use App\Models\FileHistory;
 
 class FileRepository implements FileRepositoryInterface
 {
@@ -20,11 +21,28 @@ class FileRepository implements FileRepositoryInterface
 
     public function store(array $data)
     {
-        return File::create($data);
+        $file = File::create($data);
+
+        $file->histories()->create([
+            'user_id' => auth()->user()->id,
+            'ttr_id' => 1,
+            'details' => 'Creación'
+        ]);
+
+        return $file;
     }
 
     public function update(array $data, $id)
     {
+        $data = array(
+            'file_id' => $id,
+            'user_id' => auth()->user()->id,
+            'ttr_id' => 2,
+            'details' => 'Actualización',
+        );
+
+        FileHistory::create($data);
+
         return File::whereId($id)->update($data);
     }
 

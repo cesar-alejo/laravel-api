@@ -42,10 +42,10 @@ class FileController extends Controller
     public function store(StoreApiRequest $request)
     {
         $data = [
+            'user_id' => auth()->user()->id,
             'name' => $request->name,
             'expiration' => $request->expiration,
             'details' => $request->details,
-            'user_id' => $request->user_id
         ];
 
         DB::beginTransaction();

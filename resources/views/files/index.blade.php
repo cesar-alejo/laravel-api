@@ -18,8 +18,8 @@
                         </tr>
                         @foreach ($files as $file)
                             <tr>
-                                <td>{{ $file->user_id }}</td>
                                 <td>{{ $file->id }}</td>
+                                <td>{{ $file->user_id }}</td>
                                 <td>{{ $file->expiration }}</td>
                                 <td>{{ $file->name }}</td>
                             </tr>

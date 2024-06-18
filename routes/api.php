@@ -21,5 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthenticatedController::class, 'destroy']);
 });
 
-Route::apiResource('/file', FileController::class);
-//Route::apiResource('/file', FileController::class, array('as', 'api'));
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('/file', FileController::class);
+    //Route::apiResource('/file', FileController::class, array('as', 'api'));
+});

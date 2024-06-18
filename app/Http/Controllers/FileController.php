@@ -19,13 +19,18 @@ class FileController extends Controller
 
     public function index()
     {
-        $data = $this->fileRepositoryInterface->getAll();
-        return view('files.index', ['mod' => 'File', 'files' => $data]);
+        $files = $this->fileRepositoryInterface->getAll();
+        return view('files.index', ['mod' => 'File', 'files' => $files]);
     }
 
     public function show(string $id)
     {
         $file = $this->fileRepositoryInterface->getById($id);
+
+        dump($file);
+        dump($file->histories);
+        dump($file->user);
+
         return view('files.show', ['mod' => 'DetailFile', 'file' => $file]);
     }
 
@@ -37,10 +42,10 @@ class FileController extends Controller
     public function store(StoreRequest $request)
     {
         $data = [
+            'user_id' => auth()->user()->id,
             'name' => $request->name,
             'expiration' => $request->expiration,
-            'details' => $request->details,
-            'user_id' => auth()->user()->id
+            'details' => $request->details
         ];
 
         DB::beginTransaction();

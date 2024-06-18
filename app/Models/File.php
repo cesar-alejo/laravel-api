@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class File extends Model
 {
@@ -14,6 +16,20 @@ class File extends Model
         'name',
         'expiration',
         'details',
-        'estado',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function details(): HasMany
+    {
+        return $this->hasMany(FileDetail::class);
+    }
+
+    public function histories(): HasMany
+    {
+        return $this->hasMany(FileHistory::class);
+    }
 }
