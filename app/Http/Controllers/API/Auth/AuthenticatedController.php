@@ -35,10 +35,10 @@ class AuthenticatedController extends Controller
                 'user' => $user
             ];
 
-            return response()->json(['status' => true, 'data' => $data, 'message' => 'Authenticated']);
+            return response()->json(['status' => true, 'result' => $data, 'message' => 'Authenticated']);
         } catch (\Exception $e) {
 
-            return response()->json(['status' => false, 'data' => null, 'message' => 'Login Failed: ' . $e->getMessage()]);
+            return response()->json(['status' => false, 'result' => null, 'message' => 'Login Failed: ' . $e->getMessage()]);
         }
     }
 

@@ -39,10 +39,10 @@ class RegisteredUserController extends Controller
                 'user' => $user
             ];
 
-            return response()->json(['status' => true, 'data' => $data, 'message' => 'Create Token Success']);
+            return response()->json(['status' => true, 'result' => $data, 'message' => 'Create Token Success']);
         } catch (\Exception $e) {
 
-            return response()->json(['status' => false, 'data' => null, 'message' => 'Create Token Failed: Error: ' . $e->getMessage()]);
+            return response()->json(['status' => false, 'result' => null, 'message' => 'Create Token Failed: Error: ' . $e->getMessage()]);
         }
     }
 }
