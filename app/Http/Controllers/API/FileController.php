@@ -37,6 +37,7 @@ class FileController extends Controller
     {
         $file = $this->fileRepositoryInterface->getById($id);
         return ApiResponseHelper::sendResponse(new FileResource($file), '', 200);
+        //return FileResource::make($file);
     }
 
     public function store(StoreApiRequest $request)

@@ -10,7 +10,8 @@ class FileRepository implements FileRepositoryInterface
 {
     public function getAll()
     {
-        return File::orderBy('id', 'DESC')->get();
+        return File::with('user')->withCount('details')->paginate(5);
+        //return File::orderBy('id', 'DESC')->get();
         //return File::all();
     }
 

@@ -14,13 +14,19 @@ class FileResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        //return parent::toArray($request);
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'expiration' => $this->expiration,
-            'details' => $this->details,
-            'user_id' => $this->user_id,
+            'type' => 'file',
+            'id' => (string) $this->resource->getRouteKey(),
+            'attributes' => [
+                'name' => $this->resource->name,
+                'expiration' => $this->resource->expiration,
+                'details' => $this->resource->details,
+            ],
+            [
+                'links' => [
+                    'self' => url('/api/v1/file/' . $this->resource->getRouteKey()),
+                ]
+            ]
         ];
     }
 }

@@ -12,16 +12,19 @@
                     <table>
                         <tr>
                             <th class="px-2">ID</th>
-                            <th class="px-2">USER_ID</th>
                             <th class="px-2">EXPIRATION</th>
                             <th class="px-2">NAME</th>
+                            <th class="px-2">ARCHIVOS</th>
+                            <th class="px-2">USER</th>
                         </tr>
+                        @dump($files)
                         @foreach ($files as $file)
                             <tr>
-                                <td>{{ $file->id }}</td>
-                                <td>{{ $file->user_id }}</td>
-                                <td>{{ $file->expiration }}</td>
-                                <td>{{ $file->name }}</td>
+                                <td class="px-2">{{ $file->id }}</td>
+                                <td class="px-2">{{ $file->expiration }}</td>
+                                <td class="px-2">{{ $file->name }}</td>
+                                <td class="px-2">{{ $file->details_count }}</td>
+                                <td class="px-2">{{ $file->user->name }}</td>
                             </tr>
                         @endforeach
                     </table>

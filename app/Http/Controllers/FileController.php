@@ -20,7 +20,7 @@ class FileController extends Controller
     public function index()
     {
         $files = $this->fileRepositoryInterface->getAll();
-        return view('files.index', ['mod' => 'File', 'files' => $files]);
+        return view('files.index', compact('files'));
     }
 
     public function show(string $id)
@@ -28,10 +28,10 @@ class FileController extends Controller
         $file = $this->fileRepositoryInterface->getById($id);
 
         dump($file);
-        dump($file->histories);
         dump($file->user);
+        dump($file->histories);
 
-        return view('files.show', ['mod' => 'DetailFile', 'file' => $file]);
+        return view('files.show', compact('file'));
     }
 
     public function create()
