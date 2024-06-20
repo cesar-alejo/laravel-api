@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
-                ->index()->cascadeOnUpdate()
-                ->restrictOnDelete();
+            $table->foreignId('user_id')->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
             $table->string('libre', 1)->nullable();
             $table->string('name', 150);
             $table->smallInteger('status')->default(1);

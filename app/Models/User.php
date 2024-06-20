@@ -48,6 +48,13 @@ class User extends Authenticatable
         ];
     }
 
+    public function offices()
+    {
+        return $this->belongsToMany(Office::class)
+            ->withPivot('sign_mech')
+            ->withPivot('sign_elec');
+    }
+
     public function files(): HasMany
     {
         return $this->hasMany(File::class, 'user_id', 'id');
