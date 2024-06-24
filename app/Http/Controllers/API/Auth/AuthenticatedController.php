@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth; //Manejo inicio de session
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
@@ -14,7 +14,7 @@ class AuthenticatedController extends Controller
     public function store(LoginRequest $request)
     {
         try {
-
+            // Existe Usurio
             $credentials = request(['email', 'password']);
             if (!Auth::attempt($credentials)) {
 

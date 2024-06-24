@@ -3,8 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -20,8 +22,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'type_ident',
+        'ident',
         'name',
         'email',
+        'username',
         'password',
     ];
 
@@ -48,6 +53,8 @@ class User extends Authenticatable
         ];
     }
 
+    // Relations
+
     public function offices()
     {
         return $this->belongsToMany(Office::class)
@@ -58,5 +65,15 @@ class User extends Authenticatable
     public function files(): HasMany
     {
         return $this->hasMany(File::class, 'user_id', 'id');
+    }
+
+    // Mutators & Casting
+
+    public function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => mb_strtoupper(str_replace("|", " ", $value), 'UTF-8'),
+            set: fn (string $value) => strtoupper($value),
+        );
     }
 }

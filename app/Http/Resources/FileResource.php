@@ -15,8 +15,8 @@ class FileResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'type' => 'file',
             'id' => (string) $this->resource->getRouteKey(),
+            'type' => 'file',
             'attributes' => [
                 'name' => $this->resource->name,
                 'expiration' => $this->resource->expiration,

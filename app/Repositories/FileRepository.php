@@ -17,7 +17,7 @@ class FileRepository implements FileRepositoryInterface
 
     public function getById($id)
     {
-        return File::findOrFail($id);
+        return File::with('user')->withCount('details')->findOrFail($id);
     }
 
     public function store(array $data)

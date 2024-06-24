@@ -15,6 +15,7 @@ class FileHistory extends Model
     protected $fillable = [
         'file_id',
         'user_id',
+        'ttr_id',
         'details',
     ];
 

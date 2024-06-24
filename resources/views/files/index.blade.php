@@ -17,7 +17,7 @@
                             <th class="px-2">ARCHIVOS</th>
                             <th class="px-2">USER</th>
                         </tr>
-                        @dump($files)
+                        {{-- @dump($files) --}}
                         @foreach ($files as $file)
                             <tr>
                                 <td class="px-2">{{ $file->id }}</td>

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Interfaces\FileRepositoryInterface;
 use App\Http\Requests\File\StoreRequest;
 use App\Http\Requests\File\UpdateRequest;
+use App\Http\Resources\FileResource;
 
 class FileController extends Controller
 {
@@ -19,18 +20,13 @@ class FileController extends Controller
 
     public function index()
     {
-        $files = $this->fileRepositoryInterface->getAll();
+        $files = FileResource::collection($this->fileRepositoryInterface->getAll());
         return view('files.index', compact('files'));
     }
 
     public function show(string $id)
     {
-        $file = $this->fileRepositoryInterface->getById($id);
-
-        dump($file);
-        dump($file->user);
-        dump($file->histories);
-
+        $file = new FileResource($this->fileRepositoryInterface->getById($id));
         return view('files.show', compact('file'));
     }
 

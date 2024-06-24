@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->char('type_ident', 3)->default('CC');
+            $table->string('type_ident', 3)->default('CC');
             $table->string('ident', 15)->unique();
             $table->string('name', 100);
             $table->string('username', 15)->unique();
@@ -29,7 +29,9 @@ return new class extends Migration
             $table->date('date_birth')->nullable();
             $table->char('libre', 1)->nullable();
             $table->char('libre_1', 1)->nullable();
+            $table->char('rol', 1)->default('U'); //R,A,U
             $table->smallInteger('status')->default(1);
+            $table->char('auth')->default('LDAP'); //PWS,LDAP,365[TOKEN],OTP
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
