@@ -24,10 +24,8 @@ class UserController extends Controller
         $client = new Client();
 
         // flujo ROPC No recomendado
-        $username = 'porfeo@minsalud.gov.co';
-        $password = 'S0p0rT3+2024*2024*';
-        //$username = 'sp-orfeo@minsalud.gov.co';
-        //$password = 'S0p0rT3M5P5+2024*2024*';
+        $username = 'soporte1234@minsalud.gov.co';
+        $password = '2022*2023*';
 
         $result = [];
 
