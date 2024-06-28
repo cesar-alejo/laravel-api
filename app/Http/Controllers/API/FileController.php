@@ -8,8 +8,8 @@ use App\Class\ApiResponseHelper;
 use App\Interfaces\FileRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FileResource;
-use App\Http\Requests\File\StoreApiRequest;
-use App\Http\Requests\File\UpdateApiRequest;
+use App\Http\Requests\File\StoreRequest;
+use App\Http\Requests\File\UpdateRequest;
 
 class FileController extends Controller
 {
@@ -40,7 +40,7 @@ class FileController extends Controller
         //return FileResource::make($file);
     }
 
-    public function store(StoreApiRequest $request)
+    public function store(StoreRequest $request)
     {
         $data = [
             'user_id' => auth()->user()->id,
@@ -60,7 +60,7 @@ class FileController extends Controller
         }
     }
 
-    public function update(UpdateApiRequest $request, string $id)
+    public function update(UpdateRequest $request, string $id)
     {
         $data = [
             'name' => $request->name,

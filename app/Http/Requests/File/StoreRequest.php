@@ -30,4 +30,23 @@ class StoreRequest extends FormRequest
             //'attachment' => 'required|file|max:10000',
         ];
     }
+
+    /**
+     * Auto errores to validations
+     *
+     * @param Validator $validator
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function failedValidation(Validator $validator)
+    {
+        if ($this->expectsJson()) {
+            throw new HttpResponseException(response()->json([
+                'success' => false,
+                'message' => 'Validations errors',
+                'data' => $validator->errors()
+            ], 422));
+        }
+
+        parent::failedValidation($validator);
+    }
 }

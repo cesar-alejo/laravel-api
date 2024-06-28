@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreApiRequest extends FormRequest
+class PutRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,9 @@ class StoreApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:10|max:100',
+            'name' => 'required|min:10|max:100',
             'expiration' => 'required|date|after:tomorrow',
             'details' => 'max:256'
-            //'attachment' => 'required|file|max:10000',
         ];
     }
 
@@ -37,14 +36,16 @@ class StoreApiRequest extends FormRequest
      * @param Validator $validator
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function failedValidation(Validator $validator): array
+    public function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException(response()->json(
-            [
+        if ($this->expectsJson()) {
+            throw new HttpResponseException(response()->json([
                 'success' => false,
                 'message' => 'Validations errors',
                 'data' => $validator->errors()
-            ]
-        ));
+            ], 422));
+        }
+
+        parent::failedValidation($validator);
     }
 }

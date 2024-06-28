@@ -19,7 +19,7 @@ class GraphAuthService
 
     protected function getAccessToken()
     {
-        //solicitudes sin un usuario registrado (utilizando los permisos de la aplicación)
+        //Create a Token Request Context | Crea un TokenRequestContext que obtiene acceso sin un usuario:
         return new ClientCredentialContext(
             config('graph.tenantId'),
             config('graph.clientId'),
@@ -32,6 +32,9 @@ class GraphAuthService
         $result = [];
 
         try {
+
+            //throw new \Exception("Authentication in development: $username | $password");
+
             // Obtener todos los usuarios
             $user = $this->client->users($username)->get()->wait();
 
@@ -45,8 +48,8 @@ class GraphAuthService
             //$result = $this->client->users($username)->validatePassword($password)->get();
 
             $result = [
-                'usuario' => $result,
-                'error' => false
+                'error' => false,
+                'usuario' => $result
             ];
         } catch (ApiException $ex) {
 
@@ -58,6 +61,14 @@ class GraphAuthService
 
             // Log the error message and code
             //\Log::error('Microsoft Graph error: ' . $errorMessage . ' (code: ' . $errorCode . ')');
+
+        } catch (\Exception $e) {
+
+            $result = [
+                'error' => true,
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ];
         }
 
         return $result;

@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 
 use App\Interfaces\FileRepositoryInterface;
-use App\Http\Requests\File\StoreRequest;
-use App\Http\Requests\File\UpdateRequest;
 use App\Http\Resources\FileResource;
+use App\Http\Requests\File\StoreRequest;
+use App\Http\Requests\File\PutRequest;
 
 class FileController extends Controller
 {
@@ -77,13 +77,13 @@ class FileController extends Controller
         //
     }
 
-    public function update(UpdateRequest $request, string $id)
+    public function update(PutRequest $request, string $id)
     {
-        //
     }
 
     public function destroy(string $id)
     {
-        //
+        $this->fileRepositoryInterface->delete($id);
+        return ['id' => $id, 'status' => 'Record succesfully deleted'];
     }
 }

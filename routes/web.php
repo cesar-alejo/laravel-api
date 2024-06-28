@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('file/create', [FileController::class, 'create'])->name('files.create');
     Route::post('file', [FileController::class, 'store'])->name('files.store');
     Route::get('file/{id}', [FileController::class, 'show'])->name('files.show');
+    Route::delete('/file/{id}', [FileController::class, 'destroy'])->name('files.destroy');
 });
 
 Route::middleware('auth')->group(function () {

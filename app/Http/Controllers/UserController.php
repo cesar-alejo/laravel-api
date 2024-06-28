@@ -4,42 +4,61 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Services\GraphAuthService;
-//use App\Services\MsalAuthService;
+//use App\Services\GraphAutthService;
+use GuzzleHttp\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
 class UserController extends Controller
 {
-    protected $graphAuthService;
-    //protected $msalAuthService;
+    //protected $graphAuthService;
 
-    public function __construct(GraphAuthService $graphAuthService)
-    {
-        $this->graphAuthService = $graphAuthService;
-    }
-    //public function __construct(MsalAuthService $msalAuthService)
+    //public function __construct(GraphAuthService $graphAuthService)
     //{
-    //    $this->msalAuthService = $msalAuthService;
+    //    $this->graphAuthService = $graphAuthService;
     //}
 
-    /**
-     * Validation LDAP
-     */
     public function auth()
     {
-        $username = 'prubasCd';
-        $password = '2156dsa4856184'; //0rF3oM5p5+2024*2024**
-        //$username = 'porfeo';
-        //$password = '0rF3o+2024*2024**';
+        $client = new Client();
 
-        //$result = $this->msalAuthService->validateCredentials($username, $password);
-        //$result = $this->graphAuthService->validateCredentials($username, $password);
+        // flujo ROPC No recomendado
+        $username = 'porfeo@minsalud.gov.co';
+        $password = 'S0p0rT3+2024*2024*';
+        //$username = 'sp-orfeo@minsalud.gov.co';
+        //$password = 'S0p0rT3M5P5+2024*2024*';
 
         $result = [];
 
-        return view('users.index', ['users' => $result]);
+        //$result = $this->graphAuthService->validateCredentials($username, $password);
+
+        try {
+
+            throw new \Exception("Authentication in development");
+
+            $response = $client->post('https://login.microsoftonline.com/' . config('graph.tenantId') . '/oauth2/v2.0/token', [
+                'form_params' => [
+                    'client_id' => config('graph.clientId'),
+                    'client_secret' => config('graph.clientSecret'),
+                    'grant_type' => 'password',
+                    'scope' => 'https://graph.microsoft.com/.default',
+                    'username' => $username,
+                    'password' => $password,
+                ],
+            ]);
+
+            $result = json_decode((string)$response->getBody(), true);
+        } catch (\Exception $e) {
+
+            $result = [
+                'error' => true,
+                'code' => $e->getCode(),
+                'message' => $e->getMessage()
+            ];
+        }
+
+        return view('users.index', compact('result'));
     }
 
     public function index()
@@ -49,8 +68,9 @@ class UserController extends Controller
         //$username = 'porfeo';
         //$password = '0rF3o+2024*2024**';
 
+        $result = [];
         //$result = $this->msalAuthService->validateCredentials($username, $password);
-        $result = $this->graphAuthService->validateCredentials($username, $password);
+        //$result = $this->graphAuthService->validateCredentials($username, $password);
 
         return view('users.index', ['users' => $result]);
     }
