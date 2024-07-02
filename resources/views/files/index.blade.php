@@ -55,7 +55,7 @@
                 </p>
 
                 <div class="mt-6 flex justify-end">
-                    <x-secondary-button x-on:click="$dispatch('close')">
+                    <x-secondary-button x-on:click="close()">
                         {{ __('Cancel') }}
                     </x-secondary-button>
 
@@ -69,22 +69,19 @@
     <script>
         function deleteFile() {
             return {
-                show: false,
+                show: @js($errors->userDeletion->isNotEmpty()),
                 itemId: 0,
                 itemName: '',
                 formAction: '',
                 formData: {},
-                close() {
-                    //this.itemId = event.target.getAttribute('data-id');
-                    //this.message = `😍 | ${this.itemId}`;
-                    //this.show = false;
-                    console.log('Method close');
-                },
                 open(event) {
                     this.itemId = event.target.getAttribute('data-id');
                     this.itemName = event.target.getAttribute('data-name');
                     this.formAction = `/file/${this.itemId}`;
                     this.show = true;
+                },
+                close() {
+                    this.itemId = 0, this.itemName = '', this.formAction = '', this.formData = {}, this.show = false;
                 },
                 submitForm() {
                     const url = this.formAction
@@ -100,15 +97,11 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-
-                            console.log('Success:', data);
-
-                            this.show = false;
-                            this.formData = {};
                             const row = document.getElementById(`file-row-${this.itemId}`);
                             if (row) {
                                 row.remove();
                             }
+                            this.close();
                         })
                         .catch((error) => {
                             console.error('Error:', error);
