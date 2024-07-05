@@ -19,9 +19,7 @@
 
 <body class="font-sans antialiased">
 
-    @session('status')
-        <pre class="status">{{ $value }}</pre>
-    @endsession
+    <x-alert />
 
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')

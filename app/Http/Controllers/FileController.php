@@ -49,12 +49,12 @@ class FileController extends Controller
             $this->fileRepositoryInterface->store($data);
             DB::commit();
 
-            session()->flash('status', 'Record create succesfull');
+            session()->flash('success', 'Record create succesfull');
             //return ApiResponseHelper::sendResponse(new FileResource($file), 'Record create succesfull', 201);
         } catch (\Exception $e) {
             DB::rollBack();
 
-            session()->flash('status', 'ERROR: ' . $e->getMessage());
+            session()->flash('error', 'ERROR: ' . $e->getMessage());
             //return ApiResponseHelper::rollback($e);
         }
 

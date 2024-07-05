@@ -23,26 +23,22 @@ class UserController extends Controller
     {
         $client = new Client();
 
-        // flujo ROPC No recomendado
-        $username = 'soporte1234@minsalud.gov.co';
-        $password = '2022*2023*';
-
         $result = [];
 
-        //$result = $this->graphAuthService->validateCredentials($username, $password);
+        //$result = $this->graphAuthService->validateCredentials(config('graph.user'), config('graph.userPws'));
 
         try {
 
             throw new \Exception("Authentication in development");
-
+            // Flujo ROPC No Recomendado
             $response = $client->post('https://login.microsoftonline.com/' . config('graph.tenantId') . '/oauth2/v2.0/token', [
                 'form_params' => [
                     'client_id' => config('graph.clientId'),
                     'client_secret' => config('graph.clientSecret'),
                     'grant_type' => 'password',
                     'scope' => 'https://graph.microsoft.com/.default',
-                    'username' => $username,
-                    'password' => $password,
+                    'username' => config('graph.user'),
+                    'password' => config('graph.userPws'),
                 ],
             ]);
 

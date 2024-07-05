@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div x-data="deleteFile()" x-data="{ show: true, itemId: 0 }" class="py-12">
+    <div x-data="deleteFile()" class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -24,10 +24,10 @@
                                 <td class="px-2">{{ $file->id }}</td>
                                 <td class="px-2">{{ $file->expiration }}</td>
                                 <td class="px-2">{{ $file->name }}</td>
-                                <td class="px-2">{{ $file->details_count }}</td>
+                                <td class="px-2">{{ $file->details_count }} | <span x-text="itemId"></span></td>
                                 <td class="px-2">{{ $file->user->name }}</td>
                                 <td class="px-2">
-                                    <x-secondary-button>
+                                    <x-secondary-button x-on:click="itemId++; showSuccess = true;">
                                         {{ __('Update') }}
                                     </x-secondary-button>
                                     <x-danger-button data-id="{{ $file->id }}" data-name="{{ $file->name }}"

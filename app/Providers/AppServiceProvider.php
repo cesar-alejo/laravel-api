@@ -23,14 +23,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::preventLazyLoading(app()->isProduction());
 
-        // Valores predefinidos la compilas JS
-        Vite::useScriptTagAttributes([
-            'async' => true,
-        ]);
+        // Argumentos personalizados al compilar JS
+        //Vite::useScriptTagAttributes([
+        //    'async' => true,
+        //]);
 
-        // Valores predefinidos la compilas CSS
-        Vite::useStyleTagAttributes([
-            'async' => true,
-        ]);
+        // Argumentos personalizados al compilar CSS
+        //Vite::useStyleTagAttributes([
+        //    'async' => true,
+        //]);
     }
 }
