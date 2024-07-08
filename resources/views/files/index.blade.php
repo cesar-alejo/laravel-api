@@ -5,37 +5,49 @@
         </h2>
     </x-slot>
 
-    <div x-data="deleteFile()" class="py-12">
+    <div x-data="actionFile()" class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <table>
                         <tr>
-                            <th class="px-2">ID</th>
-                            <th class="px-2">EXPIRATION</th>
-                            <th class="px-2">NAME</th>
-                            <th class="px-2">ARCHIVOS</th>
-                            <th class="px-2">USER</th>
-                            <th class="px-2">ACCIONES</th>
+                            <th class="px-2 border-y border-sky-500"></th>
+                            <th class="px-2 border-y border-sky-500">ID</th>
+                            <th class="px-2 border-y border-sky-500">EXPIRATION</th>
+                            <th class="px-2 border-y border-sky-500">NAME</th>
+                            <th class="px-2 border-y border-sky-500">ARCHIVOS</th>
+                            <th class="px-2 border-y border-sky-500">USER</th>
+                            <th class="px-2 border-y border-sky-500">DETAILS</th>
                         </tr>
                         {{-- @dump($files) --}}
                         @foreach ($files as $file)
                             <tr id="file-row-{{ $file->id }}">
+                                <td class="px-2 pt-1">
+                                    <x-secondary-button isIcon="true"
+                                        x-on:click="formData.itemId++; showSuccess = true;">
+                                        <i class="material-icons">edit_square</i>
+                                    </x-secondary-button>
+                                    <x-danger-button data-id="{{ $file->id }}" data-name="{{ $file->name }}"
+                                        isIcon="true" x-on:click.prevent="open($event)">
+                                        <i class="material-icons">delete_forever</i>
+                                    </x-danger-button>
+                                </td>
                                 <td class="px-2">{{ $file->id }}</td>
                                 <td class="px-2">{{ $file->expiration }}</td>
                                 <td class="px-2">{{ $file->name }}</td>
-                                <td class="px-2">{{ $file->details_count }} | <span x-text="itemId"></span></td>
+                                <td class="px-2">
+                                    {{ $file->details_count }} | <span x-text="formData.itemId"></span>
+                                </td>
                                 <td class="px-2">{{ $file->user->name }}</td>
                                 <td class="px-2">
-                                    <x-secondary-button x-on:click="itemId++; showSuccess = true;">
-                                        {{ __('Update') }}
-                                    </x-secondary-button>
-                                    <x-danger-button data-id="{{ $file->id }}" data-name="{{ $file->name }}"
-                                        x-on:click.prevent="open($event)">{{ __('DELETE') }}
-                                    </x-danger-button>
+                                    <span x-text="formData.details"
+                                        x-show="formData.itemId == '{{ $file->id }}'"></span>
                                 </td>
                             </tr>
                         @endforeach
+                        <footer>
+                            <th colspan="7" class="px-2 border-t border-sky-500"></th>
+                        </footer>
                     </table>
                 </div>
             </div>
@@ -54,6 +66,12 @@
                     <span x-text="itemName"></span>
                 </p>
 
+                <div class="mt-2">
+                    <x-input-label for="details" :value="__('Details')" />
+                    <x-text-input type="text" id="details" name="details" class="block mt-1 w-full"
+                        x-model="formData.details" autofocus autocomplete="details" required />
+                </div>
+
                 <div class="mt-6 flex justify-end">
                     <x-secondary-button x-on:click="close()">
                         {{ __('Cancel') }}
@@ -67,24 +85,42 @@
         </x-modal-gen>
     </div>
     <script>
-        function deleteFile() {
+        function actionFile() {
             return {
-                show: @js($errors->userDeletion->isNotEmpty()),
-                itemId: 0,
+                show: @js($errors->fileDeletion->isNotEmpty()),
                 itemName: '',
                 formAction: '',
-                formData: {},
+                formData: {
+                    itemId: 0,
+                    details: ''
+                },
                 open(event) {
-                    this.itemId = event.target.getAttribute('data-id');
-                    this.itemName = event.target.getAttribute('data-name');
-                    this.formAction = `/file/${this.itemId}`;
+                    let itemId = event.target.getAttribute('data-id') == null ?
+                        event.target.parentElement.getAttribute('data-id') :
+                        event.target.getAttribute('data-id');
+                    this.itemName = event.target.getAttribute('data-name') == null ?
+                        event.target.parentElement.getAttribute('data-name') :
+                        event.target.getAttribute('data-name');
+
+                    this.formData = {
+                        itemId: itemId,
+                        details: ''
+                    };
+
+                    this.formAction = `/file/${this.formData.itemId}`;
                     this.show = true;
                 },
                 close() {
-                    this.itemId = 0, this.itemName = '', this.formAction = '', this.formData = {}, this.show = false;
+                    this.show = false;
+                    this.itemName = '';
+                    this.formAction = '';
+                    this.formData = {
+                        itemId: 0,
+                        details: ''
+                    };
                 },
                 submitForm() {
-                    const url = this.formAction
+                    const url = this.formAction;
                     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                     fetch(url, {
@@ -97,7 +133,7 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            const row = document.getElementById(`file-row-${this.itemId}`);
+                            let row = document.getElementById(`file-row-${this.formData.itemId}`);
                             if (row) {
                                 row.remove();
                             }
@@ -109,5 +145,9 @@
                 }
             }
         }
+
+        document.addEventListener('alpine:init', () => {
+            console.log('Apine:init');
+        });
     </script>
 </x-app-layout>

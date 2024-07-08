@@ -47,8 +47,20 @@ class FileRepository implements FileRepositoryInterface
         return File::whereId($id)->update($data);
     }
 
-    public function delete($id)
+    public function delete(array $data, $id)
     {
+        /**
+         * !2024-07-08: Boora registro y relaciones
+         */
+        $data = array(
+            'file_id' => $id,
+            'user_id' => auth()->user()->id,
+            'ttr_id' => 3,
+            'details' => $data['details'],
+        );
+
+        FileHistory::create($data);
+
         return File::destroy($id);
     }
 }

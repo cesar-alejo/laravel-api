@@ -12,5 +12,5 @@ interface FileRepositoryInterface
 
     public function update(array $data, $id);
 
-    public function delete($id);
+    public function delete(array $data, $id);
 }

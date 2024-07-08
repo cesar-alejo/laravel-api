@@ -8,6 +8,7 @@ use App\Interfaces\FileRepositoryInterface;
 use App\Http\Resources\FileResource;
 use App\Http\Requests\File\StoreRequest;
 use App\Http\Requests\File\PutRequest;
+use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
@@ -81,9 +82,13 @@ class FileController extends Controller
     {
     }
 
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        $this->fileRepositoryInterface->delete($id);
+        $data = [
+            'details' => $request->input('details') ? $request->input('details') : 'Elimina repositorio.'
+        ];
+
+        $this->fileRepositoryInterface->delete($data, $id);
         return ['id' => $id, 'status' => 'Record succesfully deleted'];
     }
 }
