@@ -23,8 +23,7 @@
                         @foreach ($files as $file)
                             <tr id="file-row-{{ $file->id }}">
                                 <td class="px-2 pt-1">
-                                    <x-secondary-button isIcon="true"
-                                        x-on:click="formData.itemId++; showSuccess = true;">
+                                    <x-secondary-button isIcon="true" x-on:click="formData.itemId++;">
                                         <i class="material-icons">edit_square</i>
                                     </x-secondary-button>
                                     <x-danger-button data-id="{{ $file->id }}" data-name="{{ $file->name }}"
@@ -123,6 +122,7 @@
                     const url = this.formAction;
                     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+                    this.$dispatch('start-loading');
                     fetch(url, {
                             method: 'DELETE',
                             headers: {
@@ -133,6 +133,7 @@
                         })
                         .then(response => response.json())
                         .then(data => {
+                            this.$dispatch('stop-loading');
                             let row = document.getElementById(`file-row-${this.formData.itemId}`);
                             if (row) {
                                 row.remove();
@@ -145,9 +146,5 @@
                 }
             }
         }
-
-        document.addEventListener('alpine:init', () => {
-            console.log('Apine:init');
-        });
     </script>
 </x-app-layout>
