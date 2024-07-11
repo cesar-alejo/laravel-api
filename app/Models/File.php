@@ -36,6 +36,13 @@ class File extends Model
         return $this->hasMany(FileHistory::class);
     }
 
+    public function id(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => str_pad($value, 5, "0", STR_PAD_LEFT)
+        );
+    }
+
     public function expiration(): Attribute
     {
         return Attribute::make(

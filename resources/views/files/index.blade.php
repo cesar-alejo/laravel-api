@@ -12,7 +12,7 @@
                     <table>
                         <tr>
                             <th class="px-2 border-y border-sky-500"></th>
-                            <th class="px-2 border-y border-sky-500">ID</th>
+                            <th class="px-2 border-y border-sky-500">RESOURSE</th>
                             <th class="px-2 border-y border-sky-500">EXPIRATION</th>
                             <th class="px-2 border-y border-sky-500">NAME</th>
                             <th class="px-2 border-y border-sky-500">ARCHIVOS</th>
@@ -31,10 +31,15 @@
                                         <i class="material-icons">delete_forever</i>
                                     </x-danger-button>
                                 </td>
-                                <td class="px-2">{{ $file->id }}</td>
+                                <td class="table-cell text-center font-bold px-2">
+                                    <a href="#" @click.prevent="fetchData('{{ route('files.show', $file->id) }}')"
+                                        class="inline-block px-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                                        {{ $file->id }}
+                                    </a>
+                                </td>
                                 <td class="px-2">{{ $file->expiration }}</td>
                                 <td class="px-2">{{ $file->name }}</td>
-                                <td class="px-2">
+                                <td class="table-cell text-center font-bold px-2">
                                     {{ $file->details_count }} | <span x-text="formData.itemId"></span>
                                 </td>
                                 <td class="px-2">{{ $file->user->name }}</td>
@@ -49,11 +54,13 @@
                         </footer>
                     </table>
                 </div>
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div x-html="content"></div>
+                </div>
             </div>
         </div>
         <x-modal-gen name="confirm-file-deletion" maxWidth="md" focusable>
-            <form method="post" x-ref="form" @submit.prevent="submitForm" action="{{ route('files.destroy', 0) }}"
-                class="p-6">
+            <form method="post" @submit.prevent="submitForm" action="{{ route('files.destroy', 0) }}" class="p-6">
                 @csrf
                 @method('delete')
 
@@ -87,6 +94,7 @@
         function actionFile() {
             return {
                 show: @js($errors->fileDeletion->isNotEmpty()),
+                content: 'Modal Detalles',
                 itemName: '',
                 formAction: '',
                 formData: {
@@ -118,30 +126,45 @@
                         details: ''
                     };
                 },
-                submitForm() {
-                    const url = this.formAction;
-                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                async submitForm() {
 
                     this.$dispatch('start-loading');
-                    fetch(url, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': token
-                            },
-                            body: JSON.stringify(this.formData)
+
+                    try {
+                        const response = await axios.delete(this.formAction, {
+                            data: this.formData
+                        });
+
+                        let row = document.getElementById(`file-row-${response.data.id}`);
+                        if (row) {
+                            row.remove();
+                        }
+
+                        this.close();
+                        //this.mensaje = `ERROR: ${response.data.message}`
+                    } catch (error) {
+                        console.error(error);
+                        //this.mensaje = 'Hubo un error al enviar el formulario.';
+                    } finally {
+                        this.$dispatch('stop-loading');
+                    }
+                },
+                async fetchData(url) {
+
+                    this.$dispatch('start-loading');
+
+                    //this.content = id
+                    axios.get(url, {
+                            responseType: 'text'
                         })
-                        .then(response => response.json())
-                        .then(data => {
+                        .then(response => {
+                            this.content = response.data;
+                        })
+                        .catch(error => {
+                            console.error('Error al cargar los datos:', error);
+                        })
+                        .finally(() => {
                             this.$dispatch('stop-loading');
-                            let row = document.getElementById(`file-row-${this.formData.itemId}`);
-                            if (row) {
-                                row.remove();
-                            }
-                            this.close();
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
                         });
                 }
             }
