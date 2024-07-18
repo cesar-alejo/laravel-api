@@ -40,4 +40,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/rmail', [RadicationMailController::class, 'index'])->name('rmail.index');
 });
 
+// Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
+//     Route::resources([
+//         'file' => FileController::class,
+//         'rmail' => RadicationMailController::class
+//     ]);
+// });
+
 require __DIR__ . '/auth.php';

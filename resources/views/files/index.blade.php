@@ -32,10 +32,13 @@
                                     </x-danger-button>
                                 </td>
                                 <td class="table-cell text-center font-bold px-2">
-                                    <a href="#" @click.prevent="fetchData('{{ route('files.show', $file->id) }}')"
-                                        class="inline-block px-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
-                                        {{ $file->id }}
-                                    </a>
+                                    <x-table-link href="#" active="1"
+                                        x-on:click.prevent="$dispatch('open-modal', {
+                                            name: 'sub-m',
+                                            title: 'Recurso Compartido No. {{ $file->id }}',
+                                            data: { path:'{{ route('files.show', (int) $file->id) }}', id:{{ $file->id }} }
+                                        })">{{ $file->id }}
+                                    </x-table-link>
                                 </td>
                                 <td class="px-2">{{ $file->expiration }}</td>
                                 <td class="px-2">{{ $file->name }}</td>
@@ -53,9 +56,6 @@
                             <th colspan="7" class="px-2 border-t border-sky-500"></th>
                         </footer>
                     </table>
-                </div>
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div x-html="content"></div>
                 </div>
             </div>
         </div>
@@ -94,7 +94,6 @@
         function actionFile() {
             return {
                 show: @js($errors->fileDeletion->isNotEmpty()),
-                content: 'Modal Detalles',
                 itemName: '',
                 formAction: '',
                 formData: {
@@ -148,24 +147,6 @@
                     } finally {
                         this.$dispatch('stop-loading');
                     }
-                },
-                async fetchData(url) {
-
-                    this.$dispatch('start-loading');
-
-                    //this.content = id
-                    axios.get(url, {
-                            responseType: 'text'
-                        })
-                        .then(response => {
-                            this.content = response.data;
-                        })
-                        .catch(error => {
-                            console.error('Error al cargar los datos:', error);
-                        })
-                        .finally(() => {
-                            this.$dispatch('stop-loading');
-                        });
                 }
             }
         }

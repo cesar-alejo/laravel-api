@@ -37,13 +37,9 @@
         <!-- Page Content -->
         <main>
             {{ $slot }}
+            <x-modal-sub-mod name="sub-m"></x-modal-sub-mod>
         </main>
     </div>
-    <script>
-        document.addEventListener('alpine:init', () => {
-            console.log('Apine:init');
-        });
-    </script>
 </body>
 
 </html>
