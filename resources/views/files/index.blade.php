@@ -35,8 +35,15 @@
                                     <x-table-link href="#" active="1"
                                         x-on:click.prevent="$dispatch('open-modal', {
                                             name: 'sub-m',
-                                            title: 'Recurso Compartido No. {{ $file->id }}',
-                                            data: { path:'{{ route('files.show', (int) $file->id) }}', id:{{ $file->id }} }
+                                            title: 'Recurso No. {{ $file->id }}',
+                                            id:{{ $file->id }},
+                                            active: '{{ __('Details') }}',
+                                            main: [
+                                                { url: '{{ route('files.show', (int) $file->id) }}', text:'{{ __('Details') }}' },
+                                                { url: '{{ route('files.attach', (int) $file->id) }}', text:'{{ __('Files') }}' },
+                                                { url: '{{ route('files.recip', (int) $file->id) }}', text:'{{ __('Recipients') }}' },
+                                                { url: '{{ route('files.history', (int) $file->id) }}', text:'{{ __('History') }}' }
+                                            ]
                                         })">{{ $file->id }}
                                     </x-table-link>
                                 </td>

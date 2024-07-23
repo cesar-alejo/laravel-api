@@ -31,6 +31,27 @@ class FileController extends Controller
         return view('files.show', compact('file'));
     }
 
+    public function attach(string $id)
+    {
+        return "Attach | Indevelopment...";
+        //$file = new FileResource($this->fileRepositoryInterface->getById($id));
+        //return view('files.show', compact('file'));
+    }
+
+    public function recip(string $id)
+    {
+        return "Recip | Indevelopment...";
+        //$file = new FileResource($this->fileRepositoryInterface->getById($id));
+        //return view('files.show', compact('file'));
+    }
+
+    public function history(string $id)
+    {
+        return "History | Indevelopment...";
+        //$file = new FileResource($this->fileRepositoryInterface->getById($id));
+        //return view('files.show', compact('file'));
+    }
+
     public function create()
     {
         return view('files.create');
