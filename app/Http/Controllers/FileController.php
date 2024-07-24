@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 use App\Interfaces\FileRepositoryInterface;
 use App\Http\Resources\FileResource;
 use App\Http\Requests\File\StoreRequest;
 use App\Http\Requests\File\PutRequest;
-use Illuminate\Http\Request;
 
 class FileController extends Controller
 {

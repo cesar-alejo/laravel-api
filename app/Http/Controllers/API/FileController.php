@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\api;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 use App\Class\ApiResponseHelper;
 use App\Interfaces\FileRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FileResource;
 use App\Http\Requests\File\StoreRequest;
-use App\Http\Requests\File\UpdateRequest;
+use App\Http\Requests\File\PutRequest;
 
 class FileController extends Controller
 {
@@ -60,7 +61,7 @@ class FileController extends Controller
         }
     }
 
-    public function update(UpdateRequest $request, string $id)
+    public function update(PutRequest $request, string $id)
     {
         $data = [
             'name' => $request->name,
@@ -80,9 +81,13 @@ class FileController extends Controller
         }
     }
 
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        $this->fileRepositoryInterface->delete($id);
+        $data = [
+            'details' => $request->input('details') ? $request->input('details') : 'Elimina repositorio.'
+        ];
+
+        $this->fileRepositoryInterface->delete($data, $id);
         return ApiResponseHelper::sendResponse(null, 'Record deleted succesful', 200);
     }
 }

@@ -39,10 +39,10 @@
                                             id:{{ $file->id }},
                                             active: '{{ __('Details') }}',
                                             main: [
-                                                { url: '{{ route('files.show', (int) $file->id) }}', text:'{{ __('Details') }}' },
-                                                { url: '{{ route('files.attach', (int) $file->id) }}', text:'{{ __('Files') }}' },
-                                                { url: '{{ route('files.recip', (int) $file->id) }}', text:'{{ __('Recipients') }}' },
-                                                { url: '{{ route('files.history', (int) $file->id) }}', text:'{{ __('History') }}' }
+                                                { url: '{{ route('files.show', (int) $file->id, false) }}', text:'{{ __('Details') }}' },
+                                                { url: '{{ route('files.attach', (int) $file->id, false) }}', text:'{{ __('Files') }}' },
+                                                { url: '{{ route('files.recip', (int) $file->id, false) }}', text:'{{ __('Recipients') }}' },
+                                                { url: '{{ route('files.history', (int) $file->id, false) }}', text:'{{ __('History') }}' }
                                             ]
                                         })">{{ $file->id }}
                                     </x-table-link>

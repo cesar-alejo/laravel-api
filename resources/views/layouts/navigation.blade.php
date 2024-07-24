@@ -19,17 +19,17 @@
                         {{ __('Files') }}
                     </x-nav-link>
                     <x-nav-link :href="route('users.auth')" :active="request()->routeIs('users.auth')">
-                        {{ __('Auth User') }}
+                        {{ __('Auth') }}
                     </x-nav-link>
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
-                        {{ __('Validate User') }}
+                        {{ __('User') }}
                     </x-nav-link>
                     <x-nav-link :href="route('mail.index')" :active="request()->routeIs('mail.index')">
-                        {{ __('Send Mail') }}
+                        {{ __('SendMail') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('rmail.index')" :active="request()->routeIs('rmail.index')">
-                        {{ __('Radication E-Mail') }}
-                    </x-nav-link>
+                    {{-- <x-nav-link :href="route('rmail.index')" :active="request()->routeIs('rmail.index')">
+                        {{ __('RadMail') }}
+                    </x-nav-link> --}}
                 </div>
             </div>
 

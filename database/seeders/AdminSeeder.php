@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 class AdminSeeder extends Seeder
 {
     /**
@@ -13,10 +16,18 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         // Roles
-        //collect(['Admin', 'Jefe', 'Supervisor', 'Aprobador', 'Usuario'])->each(function ($rol) {
-        //    //Role::query()->create(['name' => $rol]);
-        //    Role::create(['name' => $rol]);
-        //});
+        collect(['Root', 'Admin', 'Jefe', 'Supervisor', 'Aprobador', 'Usuario'])->each(function ($rol) {
+            Role::create(['name' => $rol]);
+        });
+
+        // Permissions
+        collect(['see_all', 'see_my'])->each(function ($per) {
+            Permission::create(['name' => $per]);
+        });
+
+        // Asig permissions to rol
+        $roleRoot = Role::findByName('Root');
+        $roleRoot->givePermissionTo('see_all');
 
         $sede = \App\Models\Headquarters::create([
             'name' => 'Sede principal - Calle 32',
@@ -42,14 +53,12 @@ class AdminSeeder extends Seeder
             'type_ident' => 'NIT',
             'ident' => '99999999',
             'name' => 'ADMINISTRADOR|SISTEMA',
-            'username' => 'PORFEO',
-            'email' => 'porfeo@minsalud.gov.co',
+            'username' => 'ADMON',
+            'email' => 'admon@minsalud.gov.co',
             'password' => bcrypt('Password@2024*'),
         ],);
 
         $user->offices()->attach($office->id, ['sign_mech' => 'signs/admin.png']);
-
-        //$roleAdmin = Role::find(1);
-        //$user->assignRole($roleAdmin);
+        $user->assignRole($roleRoot);
     }
 }
