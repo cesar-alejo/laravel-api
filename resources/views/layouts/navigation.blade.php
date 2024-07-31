@@ -19,7 +19,7 @@
                         {{ __('Files') }}
                     </x-nav-link>
                     <x-nav-link :href="route('users.auth')" :active="request()->routeIs('users.auth')">
-                        {{ __('Auth') }}
+                        {{ __('Auth_') }}
                     </x-nav-link>
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                         {{ __('User') }}

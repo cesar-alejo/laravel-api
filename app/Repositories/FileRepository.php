@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Interfaces\FileRepositoryInterface;
 use App\Models\File;
 use App\Models\FileHistory;
@@ -10,13 +12,25 @@ class FileRepository implements FileRepositoryInterface
 {
     public function getAll()
     {
-        return File::with('user')->withCount('details')->paginate(5);
+        $user = Auth::user();
+
+        if ($user->can('viewAny', File::class)) {
+
+            return File::with('user')->withCount('details')->paginate(5);
+        } else {
+
+            return File::where('user_id', auth()->id())
+                ->with('user')->withCount('details')->paginate(5);
+        }
+
         //return File::orderBy('id', 'DESC')->get();
         //return File::all();
     }
 
     public function getById($id)
     {
+        //$this->authorize('view', File::class);
+
         return File::with('user')->withCount('details')->findOrFail($id);
     }
 
