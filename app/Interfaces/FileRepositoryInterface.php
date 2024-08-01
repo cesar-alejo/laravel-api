@@ -6,6 +6,8 @@ interface FileRepositoryInterface
 {
     public function getAll();
 
+    public function getAllForUser($id);
+
     public function getById($id);
 
     public function store(array $data);

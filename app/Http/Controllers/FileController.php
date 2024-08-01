@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
+use App\Models\File;
 use App\Interfaces\FileRepositoryInterface;
 use App\Http\Resources\FileResource;
 use App\Http\Requests\File\StoreRequest;
@@ -21,13 +26,29 @@ class FileController extends Controller
 
     public function index()
     {
-        $files = FileResource::collection($this->fileRepositoryInterface->getAll());
+        $user = Auth::user();
+
+        if ($user->can('viewAny', File::class)) {
+
+            $files = $this->fileRepositoryInterface->getAll();
+        } else {
+
+            $files = $this->fileRepositoryInterface->getAllForUser($user);
+        }
+
+        $files = FileResource::collection($files);
+
         return view('files.index', compact('files'));
     }
 
     public function show(string $id)
     {
-        $file = new FileResource($this->fileRepositoryInterface->getById($id));
+        $file = $this->fileRepositoryInterface->getById($id);
+        if (Gate::denies('view', $file)) {
+            throw new \Illuminate\Auth\Access\AuthorizationException; //abort(404);
+        }
+
+        $file = new FileResource($file);
         return view('files.show', compact('file'));
     }
 

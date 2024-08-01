@@ -21,8 +21,7 @@ class FilePolicy
      */
     public function view(User $user, File $file): bool
     {
-        //return $user->id === $file->user_id || $user->hasRole(['Root', 'Admin']);
-        return false;
+        return $user->id === $file->user_id || $user->hasRole(['Root', 'Admin']);
     }
 
     /**
