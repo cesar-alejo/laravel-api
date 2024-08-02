@@ -58,6 +58,19 @@ class FileController extends Controller
         return view('files.attach', compact('file'));
     }
 
+    public function upload(Request $request, string $id)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $path = '/images';
+            //$path = $file->store('uploads');
+
+            return response()->json(['success' => true, 'path' => $path, 'id' => $id]);
+        }
+
+        return response()->json(['success' => false], 400);
+    }
+
     public function recip(string $id)
     {
         return "Recip | Indevelopment...";
