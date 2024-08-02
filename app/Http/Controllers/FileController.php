@@ -54,9 +54,8 @@ class FileController extends Controller
 
     public function attach(string $id)
     {
-        return "Attach | Indevelopment...";
-        //$file = new FileResource($this->fileRepositoryInterface->getById($id));
-        //return view('files.show', compact('file'));
+        $file = new FileResource($this->fileRepositoryInterface->getById($id));
+        return view('files.attach', compact('file'));
     }
 
     public function recip(string $id)

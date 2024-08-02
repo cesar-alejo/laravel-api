@@ -37,7 +37,8 @@ window.modalSubMod = function () {
                 responseType: 'text'
             })
                 .then(response => {
-                    this.content = response.data;
+                    this.insertResponse(response.data);
+                    //this.content = response.data;
                 })
                 .catch(error => {
                     this.content = 'Error | :-(';
@@ -46,6 +47,25 @@ window.modalSubMod = function () {
                 .finally(() => {
                     this.$dispatch('stop-loading');
                 });
+        },
+        insertResponse(htmlString) {
+            const temp = document.createElement('div');
+            temp.innerHTML = htmlString;
+
+            temp.querySelectorAll('script').forEach(oldJs => {
+                const newJs = document.createElement('script');
+                Array.from(oldJs.attributes).forEach(attr => newJs.setAttribute(attr.name, attr.value));
+                newJs.appendChild(document.createTextNode(oldJs.innerHTML));
+                oldJs.parentNode.replaceChild(newJs, oldJs);
+            });
+
+            this.content = temp.innerHTML;
+
+            this.$nextTick(() => {
+                temp.querySelectorAll('script').forEach(script => {
+                    eval(script.textContent);
+                });
+            });
         },
         close() {
             this.isOpen = false;
