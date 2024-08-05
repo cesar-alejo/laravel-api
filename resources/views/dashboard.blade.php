@@ -13,6 +13,9 @@
                         <div class="p-4">
                             {{ __("Dashboard | You're logged in!") }}
                         </div>
+                        <div class="p-4">
+                            @dump(isMobile())
+                        </div>
                     </div>
                 </div>
             </div>
