@@ -10,7 +10,7 @@ class FileRepository implements FileRepositoryInterface
 {
     public function getAll()
     {
-        return File::with('user')->withCount('details')->paginate(5);
+        return File::with('user')->withCount('attachments')->paginate(5);
 
         //return File::orderBy('id', 'DESC')->get();
         //return File::all();
@@ -19,12 +19,12 @@ class FileRepository implements FileRepositoryInterface
     public function getAllForUser($id)
     {
         return File::where('user_id', auth()->id())
-            ->with('user')->withCount('details')->paginate(5);
+            ->with('user')->withCount('attachments')->paginate(5);
     }
 
     public function getById($id)
     {
-        return File::with('user')->withCount('details')->findOrFail($id);
+        return File::with('user')->withCount('attachments')->findOrFail($id);
     }
 
     public function store(array $data)

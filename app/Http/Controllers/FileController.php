@@ -58,23 +58,6 @@ class FileController extends Controller
         return view('files.attach', compact('file'));
     }
 
-    public function upload(Request $request, string $id)
-    {
-        $request->validate([
-            'file' => 'required|file|mimes:png,jpg,jpeg,pdf|max:5120',
-        ]);
-
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $path = '/images';
-            //$path = $file->store('uploads');
-
-            return response()->json(['success' => true, 'path' => $path, 'id' => $id]);
-        }
-
-        return response()->json(['success' => false], 400);
-    }
-
     public function recip(string $id)
     {
         return "Recip | Indevelopment...";
@@ -116,17 +99,6 @@ class FileController extends Controller
             session()->flash('error', 'ERROR: ' . $e->getMessage());
             //return ApiResponseHelper::rollback($e);
         }
-
-        // Get File | Mov File | Pend create table files
-        //$attachment = $request->file('attachment');
-        //$filePath = $attachment->storeAs('uploads', $attachment->hashName(), 'public');
-        //$file->file_name = $attachment->getClientOriginalName();
-        //$file->mime_type = $attachment->getMimeType();
-        //$file->extension = $attachment->getClientOriginalExtension();
-        //$file->size = number_format($attachment->getSize() / 1024, 2);
-        //$file->disk = 'uploads';
-        //$file->path = $filePath;
-        //$file->save();
 
         return to_route('files.index');
     }

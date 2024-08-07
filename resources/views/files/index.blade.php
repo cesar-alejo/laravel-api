@@ -50,7 +50,7 @@
                                 <td class="px-2">{{ $file->expiration }}</td>
                                 <td class="px-2">{{ $file->name }}</td>
                                 <td class="table-cell text-center font-bold px-2">
-                                    {{ $file->details_count }} | <span x-text="formData.itemId"></span>
+                                    {{ $file->attachments_count }} | <span x-text="formData.itemId"></span>
                                 </td>
                                 <td class="px-2">{{ $file->user->name }}</td>
                                 <td class="px-2">

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class File extends Model
 {
@@ -26,9 +27,9 @@ class File extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function details(): HasMany
+    public function attachments(): MorphMany
     {
-        return $this->hasMany(FileDetail::class);
+        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     public function histories(): HasMany

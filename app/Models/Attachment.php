@@ -6,23 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class FileDetail extends Model
+class Attachment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'file_id',
         'user_id',
-        'name',
+        'file_type',
+        'file_size',
         'mime_type',
-        'extension',
-        'size',
-        'path',
-        'disk'
+        'file_path',
+        'file_name',
+        'disk',
     ];
 
-    public function file(): BelongsTo
+    public function attachable(): BelongsTo
     {
-        return $this->belongsTo(File::class);
+        return $this->morphTo();
     }
 }
