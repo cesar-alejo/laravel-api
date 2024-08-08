@@ -56,6 +56,27 @@ class AttachmentController extends Controller
         return response()->json(['success' => false, 'message' => 'No file uploaded'], 400);
     }
 
+    public function detachFrom(Request $request, $model, $id, $attachmentId)
+    {
+        $modelClass = $this->getModelClass($model);
+
+        // Encontrar la instancia del modelo
+        $modelInstance = $modelClass::findOrFail($id);
+
+        // Buscar el attachment a eliminar
+        $attachment = $modelInstance->attachments()->findOrFail($attachmentId);
+
+        // Eliminar el archivo del disco
+        Storage::disk('public')->delete($attachment->file_path);
+
+        // Eliminar el registro del attachment
+        $attachment->delete();
+
+        return response()->json([
+            'message' => 'Attachment deleted successfully'
+        ], 200);
+    }
+
     private function getModelClass($model)
     {
         // Mapeo de nombres de modelos a clases

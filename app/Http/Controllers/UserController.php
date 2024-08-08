@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -57,16 +58,12 @@ class UserController extends Controller
 
     public function index()
     {
-        $username = 'prubasCd';
-        $password = '2156dsa4856184'; //0rF3oM5p5+2024*2024**
-        //$username = 'porfeo';
-        //$password = '0rF3o+2024*2024**';
+        $user = auth()->user();
+        $offices = $user->offices;
 
-        $result = [];
-        //$result = $this->msalAuthService->validateCredentials($username, $password);
-        //$result = $this->graphAuthService->validateCredentials($username, $password);
+        $this->swOficce(2);
 
-        return view('users.index', ['users' => $result]);
+        return view('users.index', compact('offices'));
     }
 
     public function create()
@@ -97,5 +94,33 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    // Request $request
+    public function swOficce($office)
+    {
+        $user = Auth::user();
+
+        //$newOfficeId = $request->input('office_id'); // ID de la nueva oficina
+        $newOfficeId = $office;
+
+        // Validar que el usuario pertenece a la oficina seleccionada
+        if ($user->offices()->where('office_id', $newOfficeId)->exists()) {
+
+            // Desactivar la oficina actual
+            $user->offices()->updateExistingPivot($user->defaultOffice()->id, ['is_default' => false]);
+
+            // Activar la nueva oficina
+            $user->offices()->updateExistingPivot($newOfficeId, ['is_default' => true]);
+
+            // Actualizar la sesión o cualquier otro proceso adicional
+            session(['office_id' => $newOfficeId, 'office_code' => $user->getActiveOffice()->code]);
+
+            //return redirect()->back()->with('success', 'Oficina cambiada con éxito.');
+            return true;
+        } else {
+            return false;
+            //return redirect()->back()->with('error', 'No tienes acceso a esa oficina.');
+        }
     }
 }

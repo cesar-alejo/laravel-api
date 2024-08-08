@@ -28,6 +28,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        //! Pend. Reubicar; 
+        $user = Auth::user();
+        session(['office_id' => $user->getActiveOffice()->id, 'office_code' => $user->getActiveOffice()->code]);
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

@@ -15,7 +15,6 @@ class Office extends Model
     {
         //return $this->belongsToMany(User::class, 'user_office_table');
         return $this->belongsToMany(User::class)
-            ->withPivot('sign_mech')
-            ->withPivot('sign_elec');
+            ->withPivot('is_default')->withPivot('sign_mech')->withPivot('sign_elec');
     }
 }

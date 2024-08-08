@@ -16,6 +16,13 @@
                         <div class="p-4">
                             @dump(isMobile())
                         </div>
+                        <div class="p-4">
+                            @dump(session('office_id'))
+                            @dump(session('office_code'))
+                        </div>
+                        <div class="p-4">
+                            @dump(auth()->user()->getActiveOffice()->pivot->sign_mech)
+                        </div>
                     </div>
                 </div>
             </div>

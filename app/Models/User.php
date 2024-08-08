@@ -59,8 +59,17 @@ class User extends Authenticatable
     public function offices()
     {
         return $this->belongsToMany(Office::class)
-            ->withPivot('sign_mech')
-            ->withPivot('sign_elec');
+            ->withPivot('is_default')->withPivot('sign_mech')->withPivot('sign_elec');
+    }
+
+    public function defaultOffice()
+    {
+        return $this->offices()->wherePivot('is_default', true)->first();
+    }
+
+    public function getActiveOffice()
+    {
+        return $this->defaultOffice();
     }
 
     public function files(): HasMany
@@ -73,8 +82,8 @@ class User extends Authenticatable
     public function name(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => mb_strtoupper(str_replace("|", " ", $value), 'UTF-8'),
-            set: fn (string $value) => strtoupper($value),
+            get: fn(string $value) => mb_strtoupper(str_replace("|", " ", $value), 'UTF-8'),
+            set: fn(string $value) => strtoupper($value),
         );
     }
 }

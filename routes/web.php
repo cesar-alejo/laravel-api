@@ -36,8 +36,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('attachments/{model}/{id}', [AttachmentController::class, 'attachTo'])->name('attachments.attach');
-    //Route::delete('attachments/{model}/{id}/{attachmentId}', [AttachmentController::class, 'detachFrom'])->name('attachments.detach');
-
+    Route::delete('attachments/{model}/{id}/{attachmentId}', [AttachmentController::class, 'detachFrom'])->name('attachments.detach');
 });
 
 //Route::prefix('api')->group(function () {

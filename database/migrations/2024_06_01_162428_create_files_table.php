@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
+            $table->foreignId('office_id')->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
             $table->string('libre', 1)->nullable();
             $table->string('name', 150);
             $table->smallInteger('status')->default(1);

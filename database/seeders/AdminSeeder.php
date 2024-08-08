@@ -58,7 +58,7 @@ class AdminSeeder extends Seeder
             'password' => bcrypt('Password@2024*'),
         ],);
 
-        $user->offices()->attach($office->id, ['sign_mech' => 'signs/admin.png']);
+        $user->offices()->attach($office->id, ['is_default' => true, 'sign_mech' => 'signs/admin.png']);
         $user->assignRole($roleRoot);
     }
 }
