@@ -17,6 +17,8 @@ class File extends Model
 
     protected $fillable = [
         'user_id',
+        'office_id',
+        'office_code',
         'name',
         'expiration',
         'details',
@@ -26,6 +28,12 @@ class File extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function office(): BelongsTo
+    {
+        return $this->belongsTo(Office::class);
+    }
+
 
     public function attachments(): MorphMany
     {
@@ -40,14 +48,14 @@ class File extends Model
     public function id(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => str_pad($value, 5, "0", STR_PAD_LEFT)
+            get: fn(string $value) => str_pad($value, 5, "0", STR_PAD_LEFT)
         );
     }
 
     public function expiration(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => Carbon::parse($value)->format('d/m/Y')
+            get: fn(string $value) => Carbon::parse($value)->format('d/m/Y')
         );
     }
 }

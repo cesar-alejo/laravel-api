@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('attachments', function (Blueprint $table) {
             $table->id();
-            $table->string('attachable_type'); //Nombre clase del modelo al que pertenece el anexo
+            $table->string('attachable_type', 50); //Nombre clase del modelo al que pertenece el anexo
             $table->unsignedBigInteger('attachable_id'); //ID del modelo específico
             $table->foreignId('user_id')->index()
                 ->cascadeOnUpdate()
                 ->restrictOnDelete();
             $table->string('file_type', 5)->nullable(); //tipo de archivo (ej. 'pdf', 'jpg', 'doc').
-            $table->unsignedBigInteger('file_size')->nullable();
+            $table->string('file_size', 15)->nullable();
             $table->string('mime_type', 150)->nullable();
             $table->string('file_path', 100);
             $table->string('file_name', 150);

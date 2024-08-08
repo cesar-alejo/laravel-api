@@ -81,6 +81,8 @@ class FileController extends Controller
     {
         $data = [
             'user_id' => auth()->user()->id,
+            'office_id' => session('office_id'),
+            'office_code' => session('office_code'),
             'name' => $request->name,
             'expiration' => $request->expiration,
             'details' => $request->details
@@ -108,9 +110,7 @@ class FileController extends Controller
         //
     }
 
-    public function update(PutRequest $request, string $id)
-    {
-    }
+    public function update(PutRequest $request, string $id) {}
 
     public function destroy(Request $request, string $id)
     {

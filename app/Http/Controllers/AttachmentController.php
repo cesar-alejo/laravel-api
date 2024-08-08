@@ -40,7 +40,7 @@ class AttachmentController extends Controller
                 'file_name' => $file->getClientOriginalName(),
                 'file_size' => number_format($file->getSize() / 1024, 2),
                 'mime_type' => $file->getMimeType(),
-                'disk' => 'attachments'
+                'disk' => 'public'
             ]);
 
             // Asociar el attachment al modelo

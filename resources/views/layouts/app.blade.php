@@ -27,6 +27,14 @@
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
 
+        @session('success')
+            <pre class="status">{{ $value }}</pre>
+        @endsession
+
+        @session('error')
+            <pre class="status">{{ $value }}</pre>
+        @endsession
+
         <!-- Page Heading -->
         @isset($header)
             <header class="bg-white dark:bg-gray-800 shadow">

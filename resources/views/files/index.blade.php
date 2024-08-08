@@ -17,6 +17,7 @@
                             <th class="px-2 border-y border-sky-500">NAME</th>
                             <th class="px-2 border-y border-sky-500">ARCHIVOS</th>
                             <th class="px-2 border-y border-sky-500">USER</th>
+                            <th class="px-2 border-y border-sky-500">OFFICE</th>
                             <th class="px-2 border-y border-sky-500">DETAILS</th>
                         </tr>
                         {{-- @dump($files) --}}
@@ -53,6 +54,7 @@
                                     {{ $file->attachments_count }} | <span x-text="formData.itemId"></span>
                                 </td>
                                 <td class="px-2">{{ $file->user->name }}</td>
+                                <td class="px-2">{{ $file->office->code }}</td>
                                 <td class="px-2">
                                     <span x-text="formData.details"
                                         x-show="formData.itemId == '{{ $file->id }}'"></span>
@@ -60,7 +62,7 @@
                             </tr>
                         @endforeach
                         <footer>
-                            <th colspan="7" class="px-2 border-t border-sky-500"></th>
+                            <th colspan="8" class="px-2 border-t border-sky-500"></th>
                         </footer>
                     </table>
                 </div>

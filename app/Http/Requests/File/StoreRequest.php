@@ -27,7 +27,6 @@ class StoreRequest extends FormRequest
             'name' => 'required|string|min:10|max:100',
             'expiration' => 'required|date|after:tomorrow',
             'details' => 'max:256'
-            //'attachment' => 'required|file|max:10000',
         ];
     }
 
