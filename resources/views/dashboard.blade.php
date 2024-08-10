@@ -21,7 +21,7 @@
                             @dump(session('office_code'))
                         </div>
                         <div class="p-4">
-                            @dump(auth()->user()->getActiveOffice()->pivot->sign_mech)
+                            @dump(auth()->user()->getActiveOffice()->pivot->sign_mech ?? 'Sin Oficina Asignada')
                         </div>
                     </div>
                 </div>

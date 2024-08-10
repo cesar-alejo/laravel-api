@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('office_id')->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
-            $table->smallInteger('office_code')->unique();
+            $table->smallInteger('office_code');
             $table->string('libre', 1)->nullable();
             $table->string('name', 150);
             $table->smallInteger('status')->default(1);

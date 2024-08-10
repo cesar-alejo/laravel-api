@@ -77,32 +77,30 @@ class FileController extends Controller
         return view('files.create');
     }
 
+    //! Pend. independizar responsabilidades
     public function store(StoreRequest $request)
     {
-        $data = [
-            'user_id' => auth()->user()->id,
-            'office_id' => session('office_id'),
-            'office_code' => session('office_code'),
-            'name' => $request->name,
-            'expiration' => $request->expiration,
-            'details' => $request->details
-        ];
+        //$data = $request->validated();
+        $data = $request->getComplementedData();
 
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
+
             $this->fileRepositoryInterface->store($data);
+
             DB::commit();
 
             session()->flash('success', 'Record create succesfull');
+            return to_route('files.index');
             //return ApiResponseHelper::sendResponse(new FileResource($file), 'Record create succesfull', 201);
+
         } catch (\Exception $e) {
             DB::rollBack();
 
             session()->flash('error', 'ERROR: ' . $e->getMessage());
+            return redirect()->back()->withInput();
             //return ApiResponseHelper::rollback($e);
         }
-
-        return to_route('files.index');
     }
 
     public function edit(string $id)

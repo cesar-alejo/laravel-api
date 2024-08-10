@@ -83,7 +83,7 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: fn(string $value) => mb_strtoupper(str_replace("|", " ", $value), 'UTF-8'),
-            set: fn(string $value) => strtoupper($value),
+            set: fn(string $value) => mb_strtoupper($value, 'UTF-8'),
         );
     }
 }

@@ -27,14 +27,6 @@
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
 
-        @session('success')
-            <pre class="status">{{ $value }}</pre>
-        @endsession
-
-        @session('error')
-            <pre class="status">{{ $value }}</pre>
-        @endsession
-
         <!-- Page Heading -->
         @isset($header)
             <header class="bg-white dark:bg-gray-800 shadow">
@@ -46,6 +38,17 @@
 
         <!-- Page Content -->
         <main>
+            @session('success')
+                <pre class="status">{{ $value }}</pre>
+            @endsession
+
+            @session('error')
+                <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
+                    <p class="font-bold">Error</p>
+                    <p>{{ $value }}</p>
+                </div>
+            @endsession
+
             {{ $slot }}
             <x-modal-sub-mod name="sub-m"></x-modal-sub-mod>
         </main>
